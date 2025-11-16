@@ -1,6 +1,6 @@
-// =====================
+
 //  MODEL
-// =====================
+
 const model = {
   timeLimit: 60,
   timeLeft: 60,
@@ -10,7 +10,7 @@ const model = {
   currentIndex: 0,
   timerId: null,
   isActive: false,
-  locked: false, // ses çalarken tıklamayı kilitle
+  locked: false, 
 
   reset() {
     this.timeLeft = this.timeLimit;
@@ -26,9 +26,9 @@ const model = {
   }
 };
 
-// =====================
+
 //  VIEW
-// =====================
+
 const view = {
   messageEl: document.getElementById("message"),
   scoreEl: document.getElementById("score"),
@@ -51,20 +51,19 @@ const view = {
   }
 };
 
-// =====================
-//  SESLER
-// =====================
+
+//  SOUNDS
+
 const correctSound = document.getElementById("sound-correct");
 const wrongSound   = document.getElementById("sound-wrong");
 
-// =====================
-//  HARİTA / STİL
-// =====================
+//  MAP
+
 let map;
 let geoLayer;
 const countryLayers = {};
 
-// Varsayılan ülke stili
+// Default country style
 function defaultCountryStyle() {
   return {
     color: "#333333",
@@ -74,11 +73,11 @@ function defaultCountryStyle() {
   };
 }
 
-// =====================
-//  SORU HAVUZU (30 soru)
-// =====================
+
+// QUESTION POOL (30 questions)
+
 const QUESTION_POOL = [
-  // 1–10
+  
   {
     countryCode: "TUR",
     text: "Alper Gezeravcı, hangi ülkenin uzaya gönderilen ilk astronotudur?"
@@ -120,7 +119,7 @@ const QUESTION_POOL = [
     text: "2022 FIFA Dünya Kupası’na ev sahipliği yapan ülkeyi seç."
   },
 
-  // 11–20
+  
   {
     countryCode: "BRA",
     text: "Son 10 yılda Amazon orman yangınlarıyla sık sık gündeme gelen Güney Amerika ülkesini seç."
@@ -162,7 +161,7 @@ const QUESTION_POOL = [
     text: "2022 Mahsa Amini protestolarının yaşandığı Orta Doğu ülkesini seç."
   },
 
-  // 21–30
+  
   {
     countryCode: "SYR",
     text: "Son 10 yılda ciddi iç savaş yaşayan Orta Doğu ülkesini seç."
@@ -205,9 +204,9 @@ const QUESTION_POOL = [
   }
 ];
 
-// =====================
+
 //  Fisher–Yates Shuffle
-// =====================
+
 function shuffleArray(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -217,12 +216,12 @@ function shuffleArray(arr) {
   return a;
 }
 
-// =====================
+
 //  CONTROLLER
-// =====================
+
 const controller = {
   async init() {
-    // Harita
+    // Map
     map = L.map("map").setView([20, 10], 2);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -230,13 +229,13 @@ const controller = {
       minZoom: 2
     }).addTo(map);
 
-    // GeoJSON yükle
+    // Download GeoJSON 
     const countries = await fetch("data/countries.geojson").then(r => r.json());
 
     geoLayer = L.geoJSON(countries, {
       style: defaultCountryStyle,
       onEachFeature: (feature, layer) => {
-        // DataHub GeoJSON için ülke kodu:
+        // Country code for DataHub GeoJSON:
         const code = feature.properties["ISO3166-1-Alpha-3"];
 
         if (code) {
@@ -305,7 +304,7 @@ const controller = {
 
     model.locked = true;
 
-    // Önce tüm renkleri sıfırla
+    // reset all colors
     this.clearCountryStyles();
 
     if (clickedLayer) {
@@ -316,7 +315,7 @@ const controller = {
     }
 
     if (clickedCode === correctCode) {
-      // DOĞRU
+      // correct
       if (clickedLayer) {
         clickedLayer.setStyle({
           fillColor: "#5cb85c",
@@ -334,7 +333,7 @@ const controller = {
         this.goNextQuestion();
       };
     } else {
-      // YANLIŞ
+      // wrong
       model.lives--;
       view.updateStats();
 
@@ -378,7 +377,7 @@ const controller = {
 
   clearCountryStyles() {
     if (geoLayer) {
-      geoLayer.resetStyle(); // tüm ülkeleri defaultCountryStyle'a döndür
+      geoLayer.resetStyle(); 
     }
   },
 
@@ -395,9 +394,9 @@ const controller = {
   }
 };
 
-// =====================
+
 //  BUTON & INIT
-// =====================
+
 document.getElementById("startBtn").addEventListener("click", () => {
   controller.startGame();
 });
