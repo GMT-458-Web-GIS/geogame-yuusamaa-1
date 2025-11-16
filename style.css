@@ -1,0 +1,80 @@
+/* Sayfa düzeni */
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f3;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 15px;
+  color: #222;
+}
+
+/* Bilgi Paneli */
+#game-info {
+  margin: 15px 0;
+}
+
+#message {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  min-height: 25px;
+}
+
+#stats {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Başlat Butonu */
+#startBtn {
+  padding: 10px 30px;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  background: #0077cc;
+  color: white;
+  border-radius: 8px;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+#startBtn:hover {
+  background: #005fa3;
+}
+
+/* Harita */
+#map {
+  width: 90%;
+  height: 500px;
+  margin: 10px auto 25px auto;
+  border: 3px solid #444;
+  border-radius: 10px;
+}
+
+/* Ülke Stil Sınıfları */
+.country-default {
+  fill: #d9d9d9;
+  fill-opacity: 0.6;
+  stroke: #333333;
+  stroke-width: 1;
+}
+
+.country-hover {
+  fill-opacity: 0.9 !important;
+}
+
+.country-correct {
+  fill: #5cb85c !important;
+  fill-opacity: 0.8;
+}
+
+.country-wrong {
+  fill: #d9534f !important;
+  fill-opacity: 0.8;
+}

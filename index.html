@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>GeoGame – Güncel Bilgi Yarışması</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet Harita Kütüphanesi -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+  <h1>🌍 GeoGame – Son 10 Yıl Genel Kültür Bilgi Oyunu</h1>
+
+  <div id="game-info">
+    <div id="message">Oyuna başlamak için Start'a bas!</div>
+    <div id="stats">
+      <span>⭐ Puan: <span id="score">0</span></span>
+      <span>⏱ Süre: <span id="time">60</span></span>
+      <span>❤️ Can: <span id="lives">3</span></span>
+      <span>❓ Soru: <span id="qIndex">0</span>/30</span>
+    </div>
+  </div>
+
+  <button id="startBtn">Start</button>
+
+  <div id="map"></div>
+
+  <!-- Ses Dosyaları -->
+  <audio id="sound-correct" src="sounds/correct.mp4" preload="auto"></audio>
+  <audio id="sound-wrong" src="sounds/wrong.mp4" preload="auto"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
