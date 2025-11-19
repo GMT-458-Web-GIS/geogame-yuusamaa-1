@@ -1,79 +1,172 @@
+/* =============== */
+/* GLOBAL LAYOUT   */
+/* =============== */
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #eef2f3;
-  text-align: center;
   margin: 0;
   padding: 0;
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: linear-gradient(135deg, #f5f7fb, #dfe7f5);
+  color: #1f2933;
+  text-align: center;
 }
 
+/* Başlık */
 h1 {
-  margin-top: 15px;
-  color: #222;
+  margin: 20px 0 10px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #111827;
 }
 
-
+/* Oyun bilgi kartı (soru + istatistikler) */
 #game-info {
-  margin: 15px 0;
+  max-width: 900px;
+  margin: 0 auto 12px auto;
+  padding: 12px 18px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+  text-align: left;
 }
 
+/* Mesaj alanı (soru) */
 #message {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  min-height: 25px;
-}
-
-#stats {
   font-size: 18px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  min-height: 40px;
+  color: #111827;
 }
 
+/* Skor, süre, can alanı */
+#stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+#stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+}
+
+/* CSV: Puan, Süre, Can, Soru göstergeleri için küçük ikon hissi */
+#stats span::before {
+  font-size: 14px;
+}
+
+#stats span:nth-child(1)::before {
+  content: "⭐";
+}
+#stats span:nth-child(2)::before {
+  content: "⏱";
+}
+#stats span:nth-child(3)::before {
+  content: "❤️";
+}
+#stats span:nth-child(4)::before {
+  content: "❓";
+}
+
+/* =============== */
+/* START BUTTON    */
+/* =============== */
 
 #startBtn {
-  padding: 10px 30px;
-  font-size: 22px;
-  border: none;
-  cursor: pointer;
-  background: #0077cc;
-  color: white;
-  border-radius: 8px;
-  transition: 0.2s;
+  margin-top: 4px;
   margin-bottom: 10px;
+  padding: 10px 36px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #ffffff;
+  box-shadow: 0 12px 20px rgba(37, 99, 235, 0.35);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+    filter 0.12s ease-out;
 }
 
 #startBtn:hover {
-  background: #005fa3;
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(37, 99, 235, 0.4);
+  filter: brightness(1.05);
 }
 
+#startBtn:active {
+  transform: translateY(1px);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.35);
+  filter: brightness(0.97);
+}
+
+/* =============== */
+/* MAP             */
+/* =============== */
 
 #map {
-  width: 90%;
-  height: 500px;
-  margin: 10px auto 25px auto;
-  border: 3px solid #444;
-  border-radius: 10px;
+  width: min(1100px, 94%);
+  height: 520px;
+  margin: 0 auto 24px auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.25);
+  border: 1px solid rgba(148, 163, 184, 0.5);
 }
 
+/* =============== */
+/* COUNTRY STYLES  */
+/* (Leaflet setStyle ile kullanılıyor) */
+/* =============== */
 
-.country-default {
-  fill: #d9d9d9;
-  fill-opacity: 0.6;
-  stroke: #333333;
-  stroke-width: 1;
+/* Leaflet kendi SVG path'lerine inline stil veriyor;
+   bu yüzden burada sadece küçük dokunuşlar yapıyoruz. */
+
+.leaflet-container {
+  background: #cfd9e8;
 }
 
-.country-hover {
-  fill-opacity: 0.9 !important;
-}
+/* Mobil uyum */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 20px;
+    margin-top: 14px;
+  }
 
-.country-correct {
-  fill: #5cb85c !important;
-  fill-opacity: 0.8;
-}
+  #game-info {
+    margin: 8px auto;
+    padding: 10px 12px;
+  }
 
-.country-wrong {
-  fill: #d9534f !important;
-  fill-opacity: 0.8;
+  #message {
+    font-size: 16px;
+  }
+
+  #stats {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  #map {
+    height: 420px;
+  }
+
+  #startBtn {
+    padding: 8px 26px;
+    font-size: 16px;
+  }
 }
