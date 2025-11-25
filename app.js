@@ -1,6 +1,3 @@
-// =====================
-//  MODEL
-// =====================
 const model = {
   timeLimit: 60,
   timeLeft: 60,
@@ -10,7 +7,7 @@ const model = {
   currentIndex: 0,
   timerId: null,
   isActive: false,
-  locked: false, // ses çalarken tıklamayı kilitle
+  locked: false, 
 
   reset() {
     this.timeLeft = this.timeLimit;
@@ -26,9 +23,7 @@ const model = {
   }
 };
 
-// =====================
-//  VIEW
-// =====================
+
 const view = {
   messageEl: document.getElementById("message"),
   scoreEl: document.getElementById("score"),
@@ -50,7 +45,7 @@ const view = {
     );
   },
 
-  // Aşama 4: Soru ilerleme çubuğunu güncelle
+  
   updateProgress() {
     const bar = document.getElementById("progress-bar");
     if (!bar) return;
@@ -65,15 +60,11 @@ const view = {
   }
 };
 
-// =====================
-//  SESLER
-// =====================
+
 const correctSound = document.getElementById("sound-correct");
 const wrongSound   = document.getElementById("sound-wrong");
 
-// =====================
-//  HARİTA
-// =====================
+
 let map;
 let geoLayer;
 const countryLayers = {};
@@ -87,11 +78,9 @@ function defaultCountryStyle() {
   };
 }
 
-// =====================
-//  SORU HAVUZU (30 soru)
-// =====================
+
 const QUESTION_POOL = [
-  // 1–10
+ 
   {
     countryCode: "TUR",
     text: "Alper Gezeravcı, hangi ülkenin uzaya gönderilen ilk astronotudur?"
@@ -133,7 +122,6 @@ const QUESTION_POOL = [
     text: "2022 FIFA Dünya Kupası’na ev sahipliği yapan ülkeyi seç."
   },
 
-  // 11–20
   {
     countryCode: "BRA",
     text: "Son 10 yılda Amazon orman yangınlarıyla sık sık gündeme gelen Güney Amerika ülkesini seç."
@@ -175,7 +163,6 @@ const QUESTION_POOL = [
     text: "2022 Mahsa Amini protestolarının yaşandığı Orta Doğu ülkesini seç."
   },
 
-  // 21–30
   {
     countryCode: "SYR",
     text: "Son 10 yılda ciddi iç savaş yaşayan Orta Doğu ülkesini seç."
@@ -218,9 +205,7 @@ const QUESTION_POOL = [
   }
 ];
 
-// =====================
-//  SHUFFLE
-// =====================
+
 function shuffleArray(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -230,9 +215,7 @@ function shuffleArray(arr) {
   return a;
 }
 
-// =====================
-//  ANİMASYON FONKSİYONLARI
-// =====================
+
 function animateCorrect() {
   const mapDiv = document.getElementById("map");
   mapDiv.classList.add("zoomPulse");
@@ -245,12 +228,10 @@ function animateWrong() {
   setTimeout(() => mapDiv.classList.remove("shake"), 400);
 }
 
-// =====================
-//  CONTROLLER
-// =====================
+
 const controller = {
   async init() {
-    // Harita
+    
     map = L.map("map").setView([20, 10], 2);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -258,7 +239,7 @@ const controller = {
       minZoom: 2
     }).addTo(map);
 
-    // GeoJSON yükle
+    
     const countries = await fetch("data/countries.geojson").then(r => r.json());
 
     geoLayer = L.geoJSON(countries, {
@@ -269,7 +250,7 @@ const controller = {
           countryLayers[code] = layer;
         }
 
-        // HOVER → SARI
+       
         layer.on("mouseover", () => {
           if (!model.isActive || model.locked) return;
           layer.setStyle({
@@ -280,13 +261,13 @@ const controller = {
           });
         });
 
-        // HOVER ÇIKIŞI → DEFAULT
+        
         layer.on("mouseout", () => {
           if (!model.isActive || model.locked) return;
           layer.setStyle(defaultCountryStyle());
         });
 
-        // TIKLAMA
+       
         layer.on("click", () => {
           controller.handleCountryClick(code);
         });
@@ -304,7 +285,7 @@ const controller = {
     model.questions = shuffleArray(QUESTION_POOL);
     model.reset();
 
-    // Aşama 4: progress bar'ı sıfırla
+    
     const bar = document.getElementById("progress-bar");
     if (bar) bar.style.width = "0%";
 
@@ -330,7 +311,15 @@ const controller = {
       return;
     }
     view.displayMessage(`Soru ${model.currentIndex + 1}: ${q.text}`);
-    view.updateProgress(); // Aşama 4: her soru gösteriminde ilerleme güncelle
+    view.updateProgress();
+  },
+
+  
+  removeGlowEffects() {
+    Object.values(countryLayers).forEach(layer => {
+      if (!layer || !layer._path) return;
+      layer._path.classList.remove("country-glow-correct", "country-glow-wrong");
+    });
   },
 
   handleCountryClick(clickedCode) {
@@ -345,10 +334,10 @@ const controller = {
 
     model.locked = true;
 
-    // Önce tüm renkleri sıfırla
+    
     this.clearCountryStyles();
 
-    // Seçilen ülkeyi kırmızı göster
+    
     if (clickedLayer) {
       clickedLayer.setStyle({
         fillColor: "#d9534f",
@@ -357,18 +346,22 @@ const controller = {
     }
 
     if (clickedCode === correctCode) {
-      // DOĞRU
+      
       if (clickedLayer) {
         clickedLayer.setStyle({
           fillColor: "#5cb85c",
           fillOpacity: 0.8
         });
+
+        const clickedEl = clickedLayer._path;
+        if (clickedEl) {
+          clickedEl.classList.add("country-glow-correct");
+        }
       }
 
       model.score += 10;
       view.updateStats();
-
-      animateCorrect(); // doğru cevap animasyonu
+      animateCorrect();
 
       correctSound.currentTime = 0;
       correctSound.play();
@@ -377,17 +370,27 @@ const controller = {
         this.goNextQuestion();
       };
     } else {
-      // YANLIŞ
+     
       model.lives--;
       view.updateStats();
+      animateWrong();
 
-      animateWrong(); // yanlış cevap animasyonu
+      
+      if (clickedLayer && clickedLayer._path) {
+        clickedLayer._path.classList.add("country-glow-wrong");
+      }
 
+      
       if (correctLayer) {
         correctLayer.setStyle({
           fillColor: "#5cb85c",
           fillOpacity: 0.8
         });
+
+        const correctEl = correctLayer._path;
+        if (correctEl) {
+          correctEl.classList.add("country-glow-correct");
+        }
       }
 
       wrongSound.currentTime = 0;
@@ -425,6 +428,8 @@ const controller = {
     if (geoLayer) {
       geoLayer.resetStyle();
     }
+    
+    this.removeGlowEffects();
   },
 
   endGame() {
@@ -440,9 +445,6 @@ const controller = {
   }
 };
 
-// =====================
-//  BUTON & INIT
-// =====================
 document.getElementById("startBtn").addEventListener("click", () => {
   controller.startGame();
 });
