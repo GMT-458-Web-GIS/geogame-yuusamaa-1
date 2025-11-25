@@ -18,7 +18,6 @@ body {
   align-items: center;
 }
 
-/* KAPSAYICI (istersen HTML'de .game-container kullanıyorsun) */
 .game-container {
   width: 100%;
   max-width: 1200px;
@@ -62,7 +61,6 @@ h1 {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
-/* puan / süre / can yazıları */
 #top-panel span {
   font-size: 15px;
   font-weight: 600;
@@ -136,11 +134,33 @@ h1 {
   box-shadow: 0 8px 14px rgba(0, 0, 0, 0.18);
 }
 
-/* disabled olduğunda */
 #startBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+/* =============== */
+/* PROGRESS BAR */
+/* =============== */
+
+#progress-wrapper {
+  width: 90%;
+  max-width: 900px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  margin: 15px auto 0;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7b2fff, #c77dff);
+  border-radius: 10px;
+  transition: width 0.4s ease;
 }
 
 /* =============== */
@@ -158,7 +178,6 @@ h1 {
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.28);
 }
 
-/* Leaflet zoom butonları çok koyu olmasın */
 .leaflet-control-zoom a {
   border-radius: 6px !important;
 }
@@ -167,7 +186,6 @@ h1 {
 /* ANİMASYONLAR */
 /* =============== */
 
-/* Yanlış cevap sonrası sallanma */
 .shake {
   animation: shakeAnim 0.4s;
 }
@@ -190,7 +208,6 @@ h1 {
   }
 }
 
-/* Doğru cevap sonrası mini zoom */
 .zoomPulse {
   animation: zoomPulseAnim 0.5s ease;
 }
@@ -211,13 +228,11 @@ h1 {
 /* YARDIMCI SINIFLAR */
 /* =============== */
 
-/* koyu yazı + açık gölge (genel kullanım) */
 .dark-with-light-shadow {
   color: #1a1a1a;
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.7);
 }
 
-/* açık yazı + koyu gölge (istersen kullan) */
 .light-with-dark-shadow {
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);

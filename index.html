@@ -1,52 +1,53 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GeoGame – General Knowledge Map Quiz</title>
-
-  <!-- Google Fonts: Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <title>GeoGame – Last 10 Years World Events</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
   />
 
-  <!-- Our styles -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-
-
 <body>
+  <div class="game-container">
+    <h1>GeoGame – Last 10 Years World Events</h1>
 
-  <h1>🌍 GeoGame – Son 10 Yıl Genel Kültür Bilgi Oyunu</h1>
-
-  <div id="game-info">
-    <div id="message">Oyuna başlamak için Start'a bas!</div>
-    <div id="stats">
-      <span>⭐ Puan: <span id="score">0</span></span>
-      <span>⏱ Süre: <span id="time">60</span></span>
-      <span>❤️ Can: <span id="lives">3</span></span>
-      <span>❓ Soru: <span id="qIndex">0</span>/30</span>
+    <div id="top-panel">
+      <span>Score: <span id="score">0</span></span>
+      <span>Time: <span id="time">60</span>s</span>
+      <span>Lives: <span id="lives">3</span></span>
+      <span>Question: <span id="qIndex">0</span>/30</span>
     </div>
+
+    <div id="message">Click "Start Game" to begin.</div>
+
+    <!-- Aşama 4: Soru ilerleme çubuğu -->
+    <div id="progress-wrapper">
+      <div id="progress-bar"></div>
+    </div>
+
+    <button id="startBtn">Start Game</button>
+
+    <div id="map"></div>
+
+    <!-- Sesler -->
+    <audio id="sound-correct" src="sounds/correct.mp4"></audio>
+    <audio id="sound-wrong" src="sounds/wrong.mp4"></audio>
   </div>
 
-  <button id="startBtn">Start</button>
-
-  <div id="map"></div>
-
-  <!-- Sound Files -->
-  <audio id="sound-correct" src="sounds/correct.mp4" preload="auto"></audio>
-  <audio id="sound-wrong" src="sounds/wrong.mp4" preload="auto"></audio>
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
   <script src="app.js"></script>
 </body>

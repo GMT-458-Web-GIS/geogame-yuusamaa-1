@@ -48,6 +48,20 @@ const view = {
       model.currentIndex + 1,
       model.questions.length
     );
+  },
+
+  // Aşama 4: Soru ilerleme çubuğunu güncelle
+  updateProgress() {
+    const bar = document.getElementById("progress-bar");
+    if (!bar) return;
+    const total = model.questions.length;
+    if (total === 0) {
+      bar.style.width = "0%";
+      return;
+    }
+    const current = model.currentIndex + 1;
+    const percent = (current / total) * 100;
+    bar.style.width = percent + "%";
   }
 };
 
@@ -250,9 +264,7 @@ const controller = {
     geoLayer = L.geoJSON(countries, {
       style: defaultCountryStyle,
       onEachFeature: (feature, layer) => {
-        // DataHub GeoJSON için ülke kodu:
         const code = feature.properties["ISO3166-1-Alpha-3"];
-
         if (code) {
           countryLayers[code] = layer;
         }
@@ -283,6 +295,7 @@ const controller = {
 
     view.displayMessage("Oyuna başlamak için Start'a bas!");
     view.updateStats();
+    view.updateProgress();
   },
 
   startGame() {
@@ -290,6 +303,11 @@ const controller = {
 
     model.questions = shuffleArray(QUESTION_POOL);
     model.reset();
+
+    // Aşama 4: progress bar'ı sıfırla
+    const bar = document.getElementById("progress-bar");
+    if (bar) bar.style.width = "0%";
+
     this.clearCountryStyles();
     view.updateStats();
 
@@ -312,6 +330,7 @@ const controller = {
       return;
     }
     view.displayMessage(`Soru ${model.currentIndex + 1}: ${q.text}`);
+    view.updateProgress(); // Aşama 4: her soru gösteriminde ilerleme güncelle
   },
 
   handleCountryClick(clickedCode) {
@@ -404,7 +423,7 @@ const controller = {
 
   clearCountryStyles() {
     if (geoLayer) {
-      geoLayer.resetStyle(); // tüm ülkeleri defaultCountryStyle'a döndür
+      geoLayer.resetStyle();
     }
   },
 
